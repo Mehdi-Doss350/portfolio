@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Mehdi Doss logo">
+  <rect width="64" height="64" fill="#020B18"/>
+  <path d="M10 48V16h8l14 18 14-18h8v32h-8V29L32 47 18 29v19z" fill="#00E5FF"/>
+  <path d="M10 52h44" stroke="#7B2FFF" stroke-width="3"/>
+</svg>
