@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { motion, useInView, useScroll, useTransform } from 'motion/react'
 import { Github, Linkedin, Mail, FileText, MapPin, Phone } from 'lucide-react'
+import { SiKaggle } from 'react-icons/si'
 
 const PHOTO_URL = '/mehdi.png'
 
@@ -55,6 +56,7 @@ const TIMELINE = [
 const SOCIAL_LINKS = [
   { icon: Github, label: 'GitHub', href: 'https://github.com/Mehdi-Doss350', color: '#00E5FF' },
   { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/mehdi-doss-a79025317/', color: '#00E5FF' },
+  { icon: SiKaggle, label: 'Kaggle', href: 'https://www.kaggle.com/mehdidoss', color: '#20BEFF' },
   { icon: Mail, label: 'Email', href: 'mailto:mehdi.doss@ensi-uma.tn', color: '#00E5FF' },
   { icon: Phone, label: 'Phone', href: 'tel:+21699352520', color: '#00E5FF' },
 ]
@@ -348,7 +350,11 @@ export function WhoAmISection() {
                       aria-label={link.label}
                       data-cursor="hover"
                     >
-                      <Icon size={16} />
+                      {link.label === 'Kaggle' ? (
+                        <span className="font-orbitron text-lg font-black leading-none">K</span>
+                      ) : (
+                        <Icon size={16} />
+                      )}
                     </motion.a>
                   )
                 })}

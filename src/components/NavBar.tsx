@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react'
 const NAV_ITEMS = [
   { id: 'whoami', label: 'WHOAMI' },
   { id: 'projects', label: 'Projects' },
+  { id: 'experience', label: 'EXPERIENCE' },
   { id: 'skills', label: 'SKILLS' },
   { id: 'contact', label: 'CONTACT' },
 ]

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import IntersectObserver from '@/components/common/IntersectObserver';
 import { Toaster } from '@/components/ui/sonner';
@@ -11,6 +11,8 @@ import { SkillsSection } from '@/components/SkillsSection';
 import { ProjectsSection } from '@/components/ProjectsSection';
 import { ContactSection } from '@/components/ContactSection';
 import ProjectDetailPage from '@/pages/ProjectDetailPage';
+import ExperienceDetailPage from './components/ExperinceDetails';
+import { ExperienceSection } from './components/ExperienceSection';
 
 const Portfolio: React.FC = () => (
   <div
@@ -22,6 +24,7 @@ const Portfolio: React.FC = () => (
       <HeroSection />
       <WhoAmISection />
       <ProjectsSection />
+      <ExperienceSection />
       <SkillsSection />
       <ContactSection />
     </main>
@@ -29,16 +32,21 @@ const Portfolio: React.FC = () => (
 );
 
 const ScrollToTop: React.FC = () => {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.history.scrollRestoration = 'manual';
-    window.scrollTo(0, 0);
 
-    return () => {
-      window.history.scrollRestoration = 'auto';
-    };
-  }, [pathname]);
+    if (pathname === '/' && hash) {
+      const frame = window.requestAnimationFrame(() => {
+        document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'start', behavior: 'auto' });
+      });
+
+      return () => window.cancelAnimationFrame(frame);
+    }
+
+    window.scrollTo(0, 0);
+  }, [pathname, hash]);
 
   return null;
 };
@@ -52,6 +60,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Portfolio />} />
         <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
+        <Route path="/experience/:experienceId" element={<ExperienceDetailPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Toaster />

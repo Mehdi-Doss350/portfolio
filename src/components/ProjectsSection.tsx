@@ -74,6 +74,14 @@ function ProjectCard({
             </h3>
           </div>
           <div className="flex items-center gap-2 shrink-0 pt-0.5">
+            {!project.github && !project.kaggle && (
+              <span
+                className="border border-amber-400/40 px-2 py-1 font-orbitron text-[9px] tracking-[0.12em] text-amber-300"
+                aria-label="Internship project"
+              >
+                INTERNSHIP
+              </span>
+            )}
             {project.github && (
               <a
                 href={project.github}

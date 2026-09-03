@@ -125,7 +125,7 @@ export default function ProjectDetailPage() {
   return (
     <div className="min-h-screen bg-[#020B18] text-white">
       <div className="max-w-7xl mx-auto px-6 py-5 md:px-12">
-        <Link to="/" className="inline-flex items-center gap-2 text-cyan-300 hover:text-cyan-200 mb-8 transition-colors">
+        <Link to="/#projects" className="inline-flex items-center gap-2 text-cyan-300 hover:text-cyan-200 mb-8 transition-colors">
           <ArrowLeft size={18} />
           Back to portfolio
         </Link>
@@ -150,9 +150,14 @@ export default function ProjectDetailPage() {
                   <Github size={16} /> GitHub
                 </a>
               )}
-              {project.demo && (
-                <a href={project.demo} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-4 py-2 text-sm text-cyan-300 hover:bg-cyan-500/20 transition-colors">
-                  <ExternalLink size={16} /> Live Demo
+              {project.kaggle && (
+                <a href={project.kaggle} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-4 py-2 text-sm text-cyan-300 hover:bg-cyan-500/20 transition-colors">
+                  <span className="font-orbitron text-base font-black leading-none">K</span> Kaggle
+                </a>
+              )}
+              {project.figma && (
+                <a href={project.figma} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-4 py-2 text-sm text-cyan-300 hover:bg-cyan-500/20 transition-colors">
+                  <SiFigma size={16} /> Figma
                 </a>
               )}
             </div>
@@ -254,6 +259,11 @@ export default function ProjectDetailPage() {
                 <div className="font-mono text-[10px] tracking-widest text-cyan-500/50 mt-1">
                   OBJECTS_DETECTED: {[project.github, project.kaggle].filter(Boolean).length}
                 </div>
+                {!project.github && !project.kaggle && (
+                  <div className="mt-3 inline-block border border-amber-400/40 px-2 py-1 font-orbitron text-[9px] tracking-[0.12em] text-amber-300">
+                    INTERNSHIP
+                  </div>
+                )}
               </div>
 
               {[
