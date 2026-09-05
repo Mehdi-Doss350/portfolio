@@ -309,7 +309,7 @@ export function WhoAmISection() {
                 className="font-inter text-sm leading-relaxed text-center"
                 style={{ color: 'rgba(232,244,253,0.65)' }}
               >
-                Hi, I'm a final-year Computer Science Engineering student at ENSI Manouba, passionate about robotics, aeronautics, autonomous systems, and agentic AI. I enjoy building projects that combine robotics, drones, and AI to solve real problems.
+                Hi, I'm a final-year Computer Science Engineering student at ENSI, passionate about AI, Machine Learning, Computer Vision, Robotics, and Software Engineering. I enjoy building AI-powered applications, autonomous systems, and full-stack solutions to solve real problems.
               </p>
 
               {/* CV button */}
