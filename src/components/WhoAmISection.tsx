@@ -18,7 +18,7 @@ const TIMELINE = [
   {
     id: 'fsm',
     title: 'Faculty of Sciences of Monastir',
-    org: 'Preparatory for Engineering Studies',
+    org: 'Preparatory Cycle for Engineering Studies',
     detail: '',
     year: '2022 – 2024',
     side: 'right' as const,
