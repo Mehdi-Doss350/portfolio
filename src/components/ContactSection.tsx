@@ -3,7 +3,6 @@ import { motion, useInView } from 'motion/react'
 import { GlitchText } from '@/components/GlitchText'
 import { NeuralCanvas } from '@/components/NeuralCanvas'
 import { Mail, Github, Linkedin, ExternalLink, Phone } from 'lucide-react'
-import { toast } from 'sonner'
 
 const CONTACT_EMAIL = 'mehdi.doss@ensi-uma.tn' // kept consistent with the rest of the site
 
@@ -44,35 +43,16 @@ export function ContactSection() {
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
   const [formState, setFormState] = useState({ name: '', email: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
-  const [isSending, setIsSending] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSending(true)
 
-    try {
-      const response = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          name: formState.name,
-          email: formState.email,
-          message: formState.message,
-          _subject: `Portfolio inquiry from ${formState.name}`,
-          _captcha: 'true',
-        }),
-      })
+    const subject = `Portfolio inquiry from ${formState.name}`
+    const body = `Name: ${formState.name}\nEmail: ${formState.email}\n\n${formState.message}`
+    const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 
-      if (!response.ok) throw new Error('Message could not be sent')
-
-      setSubmitted(true)
-      setFormState({ name: '', email: '', message: '' })
-      toast.success('Message sent successfully.')
-    } catch {
-      toast.error('Message could not be sent. Please email me directly.')
-    } finally {
-      setIsSending(false)
-    }
+    window.location.href = mailtoUrl
+    setSubmitted(true)
   }
 
   return (
@@ -204,11 +184,11 @@ export function ContactSection() {
                   className="font-orbitron text-lg font-black mb-2"
                   style={{ color: '#00E5FF' }}
                 >
-                  ALMOST THERE
+                  MESSAGE READY
                 </div>
                 <p className="font-inter text-sm" style={{ color: 'rgba(232,244,253,0.55)' }}>
-                  Your email app should have opened with the message ready to send. If nothing happened, email me
-                  directly at{' '}
+                  Your email app should have opened with the message ready to send. If it did not, email me directly
+                  at{' '}
                   <a href={`mailto:${CONTACT_EMAIL}`} className="underline" style={{ color: '#00E5FF' }}>
                     {CONTACT_EMAIL}
                   </a>.
@@ -266,8 +246,8 @@ export function ContactSection() {
                     onBlur={e => { e.target.style.borderColor = 'rgba(0,229,255,0.2)' }}
                   />
                 </div>
-                <button type="submit" disabled={isSending} className="cyber-btn w-full mt-2 disabled:cursor-not-allowed disabled:opacity-60">
-                  {isSending ? 'SENDING...' : 'SEND MESSAGE'}
+                <button type="submit" className="cyber-btn w-full mt-2">
+                  SEND MESSAGE
                 </button>
                 <p className="font-inter text-xs text-center" style={{ color: 'rgba(232,244,253,0.35)' }}>
                   Your message will be sent directly to{' '}

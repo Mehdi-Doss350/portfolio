@@ -23,21 +23,21 @@ export const PROJECTS: Project[] = [
     id: 'cropeye',
     title: 'CropEye',
     image: '/projects/cropeye/cover.png',
-    tagline: 'Autonomous agricultural drone for real-time olive tree disease detection.',
+    tagline: 'Autonomous drone system for real-time detection of Verticillium wilt in olive trees.',
     description:
-      'A real-time olive tree disease detection system built around a YOLOv8n object detection model, classifying healthy vs. Verticillium wilt-affected trees, then compressed for edge inference and flown autonomously via natural-language mission control.',
+      'An autonomous agricultural drone system for real-time detection of Verticillium wilt in olive trees, combining YOLOv8n edge AI, onboard Raspberry Pi 4 inference, and natural-language mission control through MCP, MAVLink, and ArduPilot.',
     tags: ['Computer Vision', 'YOLO', 'Autonomous Flight', 'Edge AI'],
     github: 'https://github.com/hayder-tatsouri/cropEye',
     demo: null,
     kaggle: 'https://www.kaggle.com/code/mehdidoss0/pcd-model',
-    tools: ['YOLOv8n', 'ONNX', 'INT8 Quantization', 'Raspberry Pi 4', 'MCP', 'Python'],
+    tools: ['YOLOv8n', 'ONNX', 'INT8 Quantization', 'Raspberry Pi 4', 'MCP', 'MAVLink', 'ArduPilot', 'React', 'Python'],
     longDescription:
-      'CropEye trains a YOLOv8n object detection model to classify healthy vs. Verticillium wilt-affected olive trees, reaching 0.80 mAP@0.5, 0.95 AP on the healthy class, 83% precision, and 81% recall on a held-out test set of 500 images. The model is streamlined for edge inference by exporting to ONNX and applying INT8 post-training quantization, reaching 8–12 FPS on a Raspberry Pi 4 at 320px resolution. A Model Context Protocol (MCP) autonomous control layer enables natural-language flight-mission planning and execution without manual piloting.',
+      'CropEye is an autonomous agricultural drone system developed as our final year project at ENSI to detect Verticillium wilt in olive trees from aerial imagery. The custom-built quadcopter uses a DJI F450 frame, Pixhawk 2.4.8 running ArduPilot, Raspberry Pi 4, Pi Camera, T-Motor brushless motors, and a LiPo battery. The AI pipeline uses YOLOv8n to detect infected olive trees, achieving 0.80 mAP@0.5, 83% precision, and 81% recall despite an 18:1 class imbalance. The model is optimized with INT8 quantization for onboard inference on the Raspberry Pi 4, reaching up to 33 FPS. For agentic autonomy, MCP connects an LLM directly to the drone system, allowing natural-language commands to trigger autonomous flight missions through MAVLink and ArduPilot via SSH, with no manual piloting. A React-based ground station provides live detection streaming, real-time telemetry, and AI-assisted mission control. The system was successfully tested in a real outdoor autonomous flight.',
     metrics: [
       { label: 'mAP@0.5', value: '0.80' },
       { label: 'Precision', value: '83%' },
       { label: 'Recall', value: '81%' },
-      { label: 'Edge Inference', value: '8–12 FPS' },
+      { label: 'Edge Inference', value: '33 FPS' },
     ],
     videoDemo: 'https://www.youtube.com/watch?v=BYxHVi3mqsE',
     gallery: [
@@ -128,29 +128,29 @@ export const PROJECTS: Project[] = [
   {
     id: 'are-management',
     title: 'ARE Management',
-    image: '/projects/are_app/Capture d\'écran 2026-09-01 225645.png',
-    tagline: 'A full-stack app built to streamline material reservations for association members.',
+    image: '/projects/are_app/im1.png',
+    tagline: 'Full-stack resource management platform with AI-powered assistance for material reservations.',
     description:
-      'ARE Management is a full-stack resource reservation platform that helps association members request and track material usage without spreadsheets or email chains.',
-    tags: ['Full-Stack', 'Flutter', 'AI Assistant'],
+      'A full-stack resource management platform designed for Association Robotique ENSI, streamlining material reservations, availability tracking, administrative approvals, and member support through an integrated AI assistant.',
+    tags: ['Full-Stack', 'Flutter', 'AI Assistant', 'Semantic Search'],
     github: 'https://github.com/Mehdi-Doss350/ARE-App',
     demo: null,
     videoDemo: 'https://youtu.be/Y3QjYJxyoOU',
     videoDemoV2: 'https://youtube.com/shorts/H53KPg32JjE',
-    tools: ['Flutter', 'Dart', 'Node.js', 'Express', 'MongoDB', 'Mongoose', 'FastAPI', 'Python', 'Gemini', 'Vector Search'],
+    tools: ['Flutter', 'Dart', 'Node.js', 'Express', 'MongoDB Atlas', 'Mongoose', 'FastAPI', 'Python', 'Google Gemini', 'Sentence Transformers', 'Vector Search', 'Postman', 'Figma'],
     figma: 'https://www.figma.com/design/F57UG2b8kThwR37pXYXBEb/ARE-App?node-id=0-1&p=f&t=WgLziIR7yGASfCxU-0',
     longDescription:
-      'I recently integrated ARE-Assistant into ARE Management, an AI-powered assistant that helps members search for materials using natural language, receive project-based recommendations, and submit absences or feedback directly via email. The app simplifies the full lifecycle of resource management: members can reserve materials quickly, see live availability, and track approval status, while admins manage inventory and resolve conflicts centrally. Built with Flutter for the mobile UI, Node.js + Express for the backend, MongoDB Atlas with vector search for smart retrieval, and Python + FastAPI with Google Gemini for the AI layer, this project taught me how to bring an idea from concept to a fully working end-to-end AI-powered application. It deepened my expertise in full-stack development, semantic search, and user-centered design.',
+      'ARE Management is a full-stack resource management platform developed for Association Robotique ENSI to digitize and streamline the complete material reservation workflow. Members can browse available equipment, submit reservation requests, monitor approval status, and receive notifications, while administrators can manage inventory, review requests, and resolve scheduling conflicts from a centralized system. The mobile application is built with Flutter and Dart, supported by a Node.js + Express REST API and MongoDB Atlas with Mongoose for data management. The platform was later extended with ARE-Assistant, an AI-powered assistant built with Python and FastAPI, Google Gemini, Sentence Transformers, and MongoDB Atlas Vector Search. It enables members to search for materials using natural language, receive project-based recommendations, and submit absences or feedback directly through the application. The project combines full-stack engineering, semantic search, AI integration, and user-centered product design into a single end-to-end platform.',
     metrics: [
-      { label: 'AI Layer', value: 'Gemini + Vector Search' },
-      { label: 'Backend', value: 'FastAPI + Express' },
-      { label: 'Focus', value: 'Reservation + Assistant' },
+      { label: 'Platform', value: 'Flutter + Node.js' },
+      { label: 'AI Assistant', value: 'Gemini + Vector Search' },
+      { label: 'Search', value: 'Semantic Retrieval' },
+      { label: 'Core Focus', value: 'Resource Management' },
     ],
     gallery: [
-      '/projects/are_app/Capture d\'écran 2026-09-01 225645.png',
-      '/projects/are_app/Capture d\'écran 2026-09-01 225655.png',
+      '/projects/are_app/im1.png',
+      '/projects/are_app/im2.png',
     ],
-    
   },
   {
     id: 'loan-application-prediction',

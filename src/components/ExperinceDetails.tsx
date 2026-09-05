@@ -88,7 +88,7 @@ export default function ExperienceDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#020B18] text-white">
-      <div className="max-w-5xl mx-auto px-6 py-5 md:px-12">
+      <div className="max-w-7xl mx-auto px-6 py-5 md:px-12">
         <Link to="/#experience" className="inline-flex items-center gap-2 text-cyan-300 hover:text-cyan-200 mb-8 transition-colors">
           <ArrowLeft size={18} />
           Back to portfolio
