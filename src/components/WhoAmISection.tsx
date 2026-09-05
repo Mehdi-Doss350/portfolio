@@ -314,7 +314,7 @@ export function WhoAmISection() {
 
               {/* CV button */}
               <a
-                href="/Mehdi_Doss_Resume.pdf"
+                href="/Mehdi_Doss_AI_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cyber-btn w-full text-center flex items-center justify-center gap-2"
