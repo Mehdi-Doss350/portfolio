@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-
-const NAV_ITEMS = [
-  { id: 'whoami', label: 'WHOAMI' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'experience', label: 'EXPERIENCE' },
-  { id: 'skills', label: 'SKILLS' },
-  { id: 'contact', label: 'CONTACT' },
-]
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export function NavBar() {
+  const { language, setLanguage, copy } = useLanguage()
+  const NAV_ITEMS = [
+    { id: 'whoami', label: copy.nav.about },
+    { id: 'projects', label: copy.nav.projects },
+    { id: 'experience', label: copy.nav.experience },
+    { id: 'skills', label: copy.nav.skills },
+    { id: 'contact', label: copy.nav.contact },
+  ]
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState('hero')
   const [menuOpen, setMenuOpen] = useState(false)
@@ -126,7 +127,7 @@ export function NavBar() {
           {/* Mobile hamburger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden flex flex-col gap-1.5 p-2"
+            className="md:hidden flex flex-col gap-1.5 p-2 mr-16"
             style={{ cursor: 'none' }}
           >
             <motion.span
@@ -142,6 +143,26 @@ export function NavBar() {
               className="block w-6 h-px bg-primary"
             />
           </button>
+
+          {/* Language selector */}
+          <div className="absolute top-1/2 right-6 md:right-12 -translate-y-1/2 flex items-center border border-cyan-400/25 p-0.5" role="group" aria-label="Language">
+            {(['en', 'fr'] as const).map(option => (
+              <button
+                key={option}
+                type="button"
+                onClick={() => setLanguage(option)}
+                aria-pressed={language === option}
+                className="px-2 py-1 font-orbitron text-[10px] tracking-[0.12em] transition-colors"
+                style={{
+                  color: language === option ? '#020B18' : 'rgba(232,244,253,0.55)',
+                  background: language === option ? '#00E5FF' : 'transparent',
+                  cursor: 'none',
+                }}
+              >
+                {option.toUpperCase()}
+              </button>
+            ))}
+          </div>
         </div>
       </motion.nav>
 

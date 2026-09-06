@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { GlitchText } from '@/components/GlitchText'
 import { Github, ExternalLink } from 'lucide-react'
 import { PROJECTS } from '@/data/projects'
+import { localizeProject, useLanguage } from '@/contexts/LanguageContext'
 
 // Color now encodes MEANING (category) instead of decorating cards at random.
 // Three tones only, each tied to a domain — extend the keyword lists as your
@@ -33,6 +34,8 @@ function ProjectCard({
   index: number
   inView: boolean
 }) {
+  const { language, copy } = useLanguage()
+  const localizedProject = localizeProject(project, language)
   const [hovered, setHovered] = useState(false)
   const category = getCategory(project.tags)
 
@@ -52,7 +55,7 @@ function ProjectCard({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <Link to={`/projects/${project.id}`} className="block focus:outline-none focus:ring-2 focus:ring-cyan-400/60" aria-label={`Open ${project.title}`}>
+      <Link to={`/projects/${project.id}`} className="block focus:outline-none focus:ring-2 focus:ring-cyan-400/60" aria-label={`${copy.projects.open} ${localizedProject.title}`}>
         {/* Header: dark, matches card body — accent lives in the top hairline + category tag, not a colored block */}
         <div
           className="px-5 pt-4 pb-3 flex items-start justify-between gap-2 shrink-0 relative"
@@ -70,16 +73,16 @@ function ProjectCard({
               {category.label}
             </span>
             <h3 className="font-orbitron text-sm md:text-base font-black tracking-[0.04em] text-white leading-tight truncate">
-              {project.title}
+              {localizedProject.title}
             </h3>
           </div>
           <div className="flex items-center gap-2 shrink-0 pt-0.5">
             {!project.github && !project.kaggle && (
               <span
                 className="border border-amber-400/40 px-2 py-1 font-orbitron text-[9px] tracking-[0.12em] text-amber-300"
-                aria-label="Internship project"
+                aria-label={copy.projects.internship}
               >
-                INTERNSHIP
+                {copy.projects.internship}
               </span>
             )}
             {project.github && (
@@ -161,7 +164,7 @@ function ProjectCard({
             className="font-inter text-sm leading-relaxed flex-1"
             style={{ color: 'rgba(232,244,253,0.7)' }}
           >
-            {project.description}
+            {localizedProject.description}
           </p>
 
           {/* Tags */}
@@ -188,6 +191,7 @@ function ProjectCard({
 }
 
 export function ProjectsSection() {
+  const { copy } = useLanguage()
   const containerRef = useRef<HTMLDivElement>(null)
   const inView = useInView(containerRef, { once: true, margin: '-80px' })
 
@@ -213,10 +217,10 @@ export function ProjectsSection() {
           transition={{ duration: 0.7 }}
           className="mb-8 md:mb-10"
         >
-          <div className="hud-label mb-3">SECTION_03 / BUILDS</div>
+          <div className="hud-label mb-3">{copy.projects.section}</div>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <GlitchText
-              text="DEPLOYED SYSTEMS"
+              text={copy.projects.title}
               as="h2"
               scramble={false}
               className="text-3xl md:text-5xl font-black tracking-[0.1em] text-foreground"
@@ -228,7 +232,7 @@ export function ProjectsSection() {
               className="font-orbitron text-xs tracking-[0.2em] shrink-0"
               style={{ color: 'rgba(0,229,255,0.5)' }}
             >
-              {PROJECTS.length} PROJECTS LOGGED
+              {PROJECTS.length} {copy.projects.count}
             </motion.span>
           </div>
         </motion.div>

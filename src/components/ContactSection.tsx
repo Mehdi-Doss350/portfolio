@@ -3,6 +3,7 @@ import { motion, useInView } from 'motion/react'
 import { GlitchText } from '@/components/GlitchText'
 import { NeuralCanvas } from '@/components/NeuralCanvas'
 import { Mail, Github, Linkedin, ExternalLink, Phone } from 'lucide-react'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 const CONTACT_EMAIL = 'mehdi.doss@ensi-uma.tn' // kept consistent with the rest of the site
 
@@ -38,6 +39,7 @@ const CONTACT_LINKS = [
 ]
 
 export function ContactSection() {
+  const { copy } = useLanguage()
   const containerRef = useRef<HTMLDivElement>(null)
   const inView = useInView(containerRef, { once: true, margin: '-80px' })
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
@@ -87,9 +89,9 @@ export function ContactSection() {
           transition={{ duration: 0.7 }}
           className="mb-8 md:mb-10 text-center"
         >
-          <div className="hud-label mb-3">SECTION_05 / CONNECT</div>
+          <div className="hud-label mb-3">{copy.contact.section}</div>
           <GlitchText
-            text="GET IN TOUCH"
+            text={copy.contact.title}
             as="h2"
             scramble={false}
             className="text-3xl md:text-5xl font-black tracking-[0.1em] text-foreground"
@@ -101,7 +103,7 @@ export function ContactSection() {
             className="mt-6 text-sm md:text-base font-inter max-w-xl mx-auto"
             style={{ color: 'rgba(232,244,253,0.55)' }}
           >
-            Open to research collaborations, engineering roles, and projects in AI, computer vision, and robotics.
+            {copy.contact.intro}
           </motion.p>
         </motion.div>
 
@@ -113,7 +115,7 @@ export function ContactSection() {
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.2 }}
             >
-              <div className="hud-label mb-6">CONTACT INFO</div>
+              <div className="hud-label mb-6">{copy.contact.info}</div>
 
               {CONTACT_LINKS.map((link, i) => {
                 const Icon = link.icon
@@ -171,7 +173,7 @@ export function ContactSection() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.25 }}
           >
-            <div className="hud-label mb-6">SEND A MESSAGE</div>
+            <div className="hud-label mb-6">{copy.contact.send}</div>
 
             {submitted ? (
               <motion.div
@@ -184,10 +186,10 @@ export function ContactSection() {
                   className="font-orbitron text-lg font-black mb-2"
                   style={{ color: '#00E5FF' }}
                 >
-                  MESSAGE READY
+                  {copy.contact.ready}
                 </div>
                 <p className="font-inter text-sm" style={{ color: 'rgba(232,244,253,0.55)' }}>
-                  Your email app should have opened with the message ready to send. If it did not, email me directly
+                  {copy.contact.readyCopy}{' '}
                   at{' '}
                   <a href={`mailto:${CONTACT_EMAIL}`} className="underline" style={{ color: '#00E5FF' }}>
                     {CONTACT_EMAIL}
@@ -197,7 +199,7 @@ export function ContactSection() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 {[
-                  { id: 'name', label: 'NAME', placeholder: 'Your name', type: 'text' },
+                  { id: 'name', label: copy.contact.name, placeholder: copy.contact.namePlaceholder, type: 'text' },
                   { id: 'email', label: 'EMAIL', placeholder: 'your@email.com', type: 'email' },
                 ].map(field => (
                   <div key={field.id}>
@@ -233,7 +235,7 @@ export function ContactSection() {
                     id="message"
                     required
                     rows={4}
-                    placeholder="Describe your project or inquiry..."
+                    placeholder={copy.contact.messagePlaceholder}
                     value={formState.message}
                     onChange={e => setFormState(prev => ({ ...prev, message: e.target.value }))}
                     className="w-full px-4 py-3 font-inter text-sm bg-transparent border outline-none transition-all duration-200 resize-none"
@@ -247,10 +249,10 @@ export function ContactSection() {
                   />
                 </div>
                 <button type="submit" className="cyber-btn w-full mt-2">
-                  SEND MESSAGE
+                  {copy.contact.submit}
                 </button>
                 <p className="font-inter text-xs text-center" style={{ color: 'rgba(232,244,253,0.35)' }}>
-                  Your message will be sent directly to{' '}
+                  {copy.contact.direct}{' '}
                   <a href={`mailto:${CONTACT_EMAIL}`} className="underline">{CONTACT_EMAIL}</a>.
                 </p>
               </form>

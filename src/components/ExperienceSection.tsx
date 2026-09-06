@@ -4,8 +4,11 @@ import { Link } from 'react-router-dom'
 import { Calendar, ArrowUpRight } from 'lucide-react'
 import { GlitchText } from '@/components/GlitchText'
 import { EXPERIENCES, type Experience } from '@/data/experiences'
+import { localizeExperience, useLanguage } from '@/contexts/LanguageContext'
 
 function ExperienceCard({ exp, index, inView }: { exp: Experience; index: number; inView: boolean }) {
+  const { language, copy } = useLanguage()
+  const localizedExperience = localizeExperience(exp, language)
   const [hovered, setHovered] = useState(false)
   const Icon = exp.icon
 
@@ -29,7 +32,7 @@ function ExperienceCard({ exp, index, inView }: { exp: Experience; index: number
         <div className="relative h-52 sm:h-auto sm:w-80 shrink-0 overflow-hidden bg-slate-950/60">
           <img
             src={exp.image}
-            alt={exp.role}
+            alt={localizedExperience.role}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
           <div
@@ -64,7 +67,7 @@ function ExperienceCard({ exp, index, inView }: { exp: Experience; index: number
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                 <h3 className="font-orbitron text-base font-bold tracking-[0.02em] text-foreground">
-                  {exp.role}
+                  {localizedExperience.role}
                 </h3>
                 <span
                   className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.12em]"
@@ -80,12 +83,12 @@ function ExperienceCard({ exp, index, inView }: { exp: Experience; index: number
               </div>
 
               <p className="mt-3 font-inter text-sm leading-relaxed" style={{ color: 'rgba(232,244,253,0.6)' }}>
-                {exp.summary}
+                {localizedExperience.summary}
               </p>
 
-              {exp.highlights && exp.highlights.length > 0 && (
+              {localizedExperience.highlights && localizedExperience.highlights.length > 0 && (
                 <ul className="mt-4 space-y-2">
-                  {exp.highlights.slice(0, 2).map(item => (
+                  {localizedExperience.highlights.slice(0, 2).map(item => (
                     <li key={item} className="flex items-start gap-2.5 font-inter text-sm" style={{ color: 'rgba(232,244,253,0.55)' }}>
                       <span
                         className="mt-1.5 h-1 w-1 shrink-0 rounded-full transition-colors duration-300"
@@ -94,9 +97,9 @@ function ExperienceCard({ exp, index, inView }: { exp: Experience; index: number
                       {item}
                     </li>
                   ))}
-                  {exp.highlights.length > 2 && (
+                  {localizedExperience.highlights.length > 2 && (
                     <li className="font-inter text-xs pl-4" style={{ color: hovered ? exp.color : 'rgba(232,244,253,0.4)' }}>
-                      +{exp.highlights.length - 2} more
+                      +{localizedExperience.highlights.length - 2} {copy.experience.more}
                     </li>
                   )}
                 </ul>
@@ -106,7 +109,7 @@ function ExperienceCard({ exp, index, inView }: { exp: Experience; index: number
                 className="mt-4 inline-flex items-center gap-1.5 font-orbitron text-[11px] uppercase tracking-[0.15em] transition-colors duration-300"
                 style={{ color: hovered ? exp.color : 'rgba(232,244,253,0.4)' }}
               >
-                View details
+                {copy.experience.details}
                 <ArrowUpRight size={13} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </div>
             </div>
@@ -118,6 +121,7 @@ function ExperienceCard({ exp, index, inView }: { exp: Experience; index: number
 }
 
 export function ExperienceSection() {
+  const { copy } = useLanguage()
   const containerRef = useRef<HTMLDivElement>(null)
   const inView = useInView(containerRef, { once: true, margin: '-100px' })
 
@@ -143,9 +147,9 @@ export function ExperienceSection() {
           transition={{ duration: 0.7 }}
           className="mb-8 md:mb-10"
         >
-          <div className="hud-label mb-3">SECTION_04 / TRACK RECORD</div>
+          <div className="hud-label mb-3">{copy.experience.section}</div>
           <GlitchText
-            text="EXPERIENCE"
+            text={copy.experience.title}
             as="h2"
             scramble={false}
             className="text-3xl md:text-5xl font-black tracking-[0.1em] text-foreground"
@@ -157,7 +161,7 @@ export function ExperienceSection() {
             className="mt-6 text-sm md:text-base font-inter max-w-none md:whitespace-nowrap"
             style={{ color: 'rgba(232,244,253,0.55)' }}
           >
-            Beyond engineering: leadership, communication, and teaching roles that shaped how I work with people, not just code.
+            {copy.experience.intro}
           </motion.p>
         </motion.div>
 

@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import { ArrowLeft, ExternalLink, Calendar } from 'lucide-react'
 import { EXPERIENCES, type Experience } from '@/data/experiences'
+import { localizeExperience, useLanguage } from '@/contexts/LanguageContext'
 
 /** Big featured photo on top, clickable thumbnail strip below — same pattern as the project gallery. */
 function ExperienceGallery({ exp }: { exp: Experience }) {
@@ -66,8 +67,10 @@ function ExperienceGallery({ exp }: { exp: Experience }) {
 }
 
 export default function ExperienceDetailPage() {
+  const { language, copy } = useLanguage()
   const { experienceId } = useParams()
-  const exp = EXPERIENCES.find(item => item.id === experienceId)
+  const sourceExperience = EXPERIENCES.find(item => item.id === experienceId)
+  const exp = sourceExperience ? localizeExperience(sourceExperience, language) : undefined
 
   if (!exp) {
     return (
@@ -75,10 +78,10 @@ export default function ExperienceDetailPage() {
         <div className="max-w-3xl mx-auto">
           <Link to="/#experience" className="inline-flex items-center gap-2 text-cyan-300 hover:text-cyan-200 mb-8">
             <ArrowLeft size={18} />
-            Back to portfolio
+            {copy.detail.back}
           </Link>
-          <h1 className="text-3xl font-bold mb-4">Experience not found</h1>
-          <p className="text-slate-300">This entry does not exist or has been removed.</p>
+          <h1 className="text-3xl font-bold mb-4">Expérience introuvable</h1>
+          <p className="text-slate-300">Cette entrée n’existe pas ou a été supprimée.</p>
         </div>
       </div>
     )
@@ -91,7 +94,7 @@ export default function ExperienceDetailPage() {
       <div className="max-w-7xl mx-auto px-6 py-5 md:px-12">
         <Link to="/#experience" className="inline-flex items-center gap-2 text-cyan-300 hover:text-cyan-200 mb-8 transition-colors">
           <ArrowLeft size={18} />
-          Back to portfolio
+          {copy.detail.back}
         </Link>
 
         <header className="mb-10">
@@ -133,7 +136,7 @@ export default function ExperienceDetailPage() {
 
           <aside className="rounded-2xl border p-6" style={{ borderColor: `${exp.color}33`, background: 'rgba(13,31,53,0.4)' }}>
             <h2 className="font-orbitron text-sm uppercase tracking-[0.18em] mb-4" style={{ color: exp.color }}>
-              Overview
+              {copy.detail.overview}
             </h2>
             <p className="text-slate-300 leading-relaxed">{exp.longDescription || exp.summary}</p>
 

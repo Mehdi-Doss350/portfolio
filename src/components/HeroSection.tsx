@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
 import { NeuralCanvas } from '@/components/NeuralCanvas'
 import { GlitchText } from '@/components/GlitchText'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 const IDENTITY_WORDS = ['AI ENGINEER', 'COMPUTER VISION', 'ROBOTICS', 'SOFTWARE']
 const HEX_CHARS = '0123456789ABCDEF'
@@ -40,6 +41,7 @@ function GlitchEcho({ text, glitching }: { text: string; glitching: boolean }) {
 }
 
 export function HeroSection() {
+  const { language, copy } = useLanguage()
   const containerRef = useRef<HTMLDivElement>(null)
   const spotlightRef = useRef<HTMLDivElement>(null)
   const { scrollY } = useScroll()
@@ -181,15 +183,15 @@ export function HeroSection() {
 
       {/* Corner HUD elements */}
       <div className="absolute top-20 left-6 md:left-12 z-10 pointer-events-none">
-        <div className="hud-label mb-1">SYS.STATUS</div>
-        <div className="font-orbitron text-xs text-primary opacity-70">● ONLINE</div>
+        <div className="hud-label mb-1">{copy.hero.status}</div>
+        <div className="font-orbitron text-xs text-primary opacity-70">{copy.hero.online}</div>
       </div>
       <div className="absolute top-20 right-6 md:right-12 z-10 pointer-events-none text-right">
-        <div className="hud-label mb-1">DATE.STAMP</div>
+        <div className="hud-label mb-1">{copy.hero.date}</div>
         <div className="font-orbitron text-xs text-primary opacity-70">{dateStr}</div>
       </div>
       <div className="absolute bottom-24 left-6 md:left-12 z-10 pointer-events-none">
-        <div className="hud-label">LOC.COORD</div>
+        <div className="hud-label">{copy.hero.coordinates}</div>
         <div className="font-orbitron text-xs" style={{ color: 'rgba(0,229,255,0.4)' }}>
           48.8566°N / 2.3522°E
         </div>
@@ -230,7 +232,7 @@ export function HeroSection() {
           <div className="h-px w-12 md:w-24" style={{ background: 'rgba(0,229,255,0.4)' }} />
           <span className="font-orbitron text-xs tracking-[0.35em] uppercase"
             style={{ color: 'rgba(0,229,255,0.7)' }}>
-            INITIALIZING SYSTEM
+            {copy.hero.initializing}
           </span>
           <div className="h-px w-12 md:w-24" style={{ background: 'rgba(0,229,255,0.4)' }} />
         </motion.div>
@@ -256,7 +258,7 @@ export function HeroSection() {
           <h2
             className="tagline-shift text-xl md:text-3xl lg:text-4xl font-black tracking-[0.08em] gradient-text font-orbitron"
           >
-            I BUILD MACHINES THAT SEE, THINK, AND ACT.
+            {copy.hero.tagline}
           </h2>
         </motion.div>
 
@@ -267,7 +269,7 @@ export function HeroSection() {
           transition={{ duration: 0.8, delay: 2.2 }}
           className="flex flex-wrap justify-center gap-2 md:gap-4 mb-12"
         >
-          {IDENTITY_WORDS.map((word, i) => (
+          {(language === 'fr' ? ['INGÉNIEUR IA', 'VISION PAR ORDINATEUR', 'ROBOTIQUE', 'LOGICIEL'] : IDENTITY_WORDS).map((word, i) => (
             <motion.span
               key={word}
               initial={{ opacity: 0, y: 10 }}
@@ -293,14 +295,14 @@ export function HeroSection() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <button className="cyber-btn scan-btn" onClick={scrollToProjects} data-cursor="hover">
-            EXPLORE PROJECTS
+            {copy.hero.projects}
           </button>
           <button
             className="font-orbitron text-xs tracking-[0.2em] py-3 px-8 border border-muted-foreground/20 text-muted-foreground hover:text-foreground hover:border-foreground/40 hover:shadow-[0_0_20px_rgba(0,229,255,0.15)] transition-all duration-200"
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             style={{ cursor: 'none' }}
           >
-            CONNECT
+            {copy.hero.contact}
           </button>
         </motion.div>
       </motion.div>
@@ -312,7 +314,7 @@ export function HeroSection() {
         animate={{ opacity: 1 }}
         transition={{ delay: 3.5 }}
       >
-        <span className="hud-label text-center">SCROLL</span>
+        <span className="hud-label text-center">{copy.hero.scroll}</span>
         <motion.div
           className="w-px h-12"
           style={{ background: 'linear-gradient(to bottom, rgba(0,229,255,0.6), transparent)' }}

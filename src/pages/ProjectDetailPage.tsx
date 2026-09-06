@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react'
 import { ArrowLeft, Github, ExternalLink, PlayCircle, Crosshair } from 'lucide-react'
 import { SiFigma, SiKaggle } from 'react-icons/si'
 import { PROJECTS, type Project } from '@/data/projects'
+import { localizeProject, useLanguage } from '@/contexts/LanguageContext'
 
 /** Pulls the video ID out of watch/short/embed/youtu.be style YouTube URLs. Returns null if it doesn't look like YouTube. */
 function getYouTubeId(url: string): string | null {
@@ -87,8 +88,10 @@ function ProjectGallery({ project }: { project: Project }) {
 type VideoOption = { key: 'v1' | 'v2'; label: string; url: string }
 
 export default function ProjectDetailPage() {
+  const { language, copy } = useLanguage()
   const { projectId } = useParams()
-  const project = PROJECTS.find(item => item.id === projectId)
+  const sourceProject = PROJECTS.find(item => item.id === projectId)
+  const project = sourceProject ? localizeProject(sourceProject, language) : undefined
 
   // Read videoDemoV2 defensively — it may not exist on every project yet (or on the
   // Project type at all). This works whether it's undefined, missing, or set.
@@ -110,10 +113,10 @@ export default function ProjectDetailPage() {
         <div className="max-w-3xl mx-auto">
           <Link to="/" className="inline-flex items-center gap-2 text-cyan-300 hover:text-cyan-200 mb-8">
             <ArrowLeft size={18} />
-            Back to projects
+            {copy.detail.back}
           </Link>
-          <h1 className="text-3xl font-bold mb-4">Project not found</h1>
-          <p className="text-slate-300">This project does not exist or has been removed.</p>
+          <h1 className="text-3xl font-bold mb-4">{copy.detail.notFound}</h1>
+          <p className="text-slate-300">{copy.detail.removed}</p>
         </div>
       </div>
     )
@@ -127,7 +130,7 @@ export default function ProjectDetailPage() {
       <div className="max-w-7xl mx-auto px-6 py-5 md:px-12">
         <Link to="/#projects" className="inline-flex items-center gap-2 text-cyan-300 hover:text-cyan-200 mb-8 transition-colors">
           <ArrowLeft size={18} />
-          Back to portfolio
+          {copy.detail.back}
         </Link>
 
         <header className="mb-10">
@@ -168,7 +171,7 @@ export default function ProjectDetailPage() {
           <ProjectGallery project={project} />
 
           <aside className="rounded-2xl border border-cyan-500/20 bg-slate-900/60 p-6">
-            <h2 className="font-orbitron text-sm uppercase tracking-[0.18em] text-cyan-300 mb-4">Overview</h2>
+            <h2 className="font-orbitron text-sm uppercase tracking-[0.18em] text-cyan-300 mb-4">{copy.detail.overview}</h2>
             <p className="text-slate-300 leading-relaxed">{project.longDescription || project.description}</p>
 
             {project.resourceNote && (() => {
@@ -203,7 +206,7 @@ export default function ProjectDetailPage() {
             })()}
 
             <div className="mt-8 border-t border-white/10 pt-6">
-              <h3 className="font-orbitron text-xs uppercase tracking-[0.18em] text-white/70 mb-3">Tools used</h3>
+              <h3 className="font-orbitron text-xs uppercase tracking-[0.18em] text-white/70 mb-3">{copy.detail.tools}</h3>
               <div className="grid grid-cols-2 gap-x-4 gap-y-2">
                 {project.tools.map(tool => (
                   <div key={tool} className="flex items-center gap-2.5 font-mono text-xs text-slate-300">
@@ -218,7 +221,7 @@ export default function ProjectDetailPage() {
 
         <section className="mb-12">
           <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
-            <h2 className="font-orbitron text-sm uppercase tracking-[0.2em] text-cyan-300">Video Demo</h2>
+            <h2 className="font-orbitron text-sm uppercase tracking-[0.2em] text-cyan-300">{copy.detail.video}</h2>
 
             {/* Simple V1 / V2 toggle — only shown when both videos are set */}
             {videoOptions.length > 1 && (
@@ -254,14 +257,14 @@ export default function ProjectDetailPage() {
               <div>
                 <h3 className="font-orbitron text-xs uppercase tracking-[0.2em] text-white/70 flex items-center gap-2">
                   <Crosshair size={13} className="text-cyan-400" />
-                  Resources
+                  {copy.detail.resources}
                 </h3>
                 <div className="font-mono text-[10px] tracking-widest text-cyan-500/50 mt-1">
                   OBJECTS_DETECTED: {[project.github, project.kaggle].filter(Boolean).length}
                 </div>
                 {!project.github && !project.kaggle && (
                   <div className="mt-3 inline-block border border-amber-400/40 px-2 py-1 font-orbitron text-[9px] tracking-[0.12em] text-amber-300">
-                    INTERNSHIP
+                    {copy.detail.internship}
                   </div>
                 )}
               </div>
@@ -362,13 +365,13 @@ export default function ProjectDetailPage() {
               <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 bg-white/5 p-10 text-center text-slate-300">
                 <PlayCircle className="mb-4 text-cyan-300" size={32} />
                 <a href={activeVideoUrl} target="_blank" rel="noreferrer" className="text-cyan-300 underline hover:text-cyan-200">
-                  Watch the video demo
+                  {copy.detail.watch}
                 </a>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 bg-white/5 p-10 text-center text-slate-300">
                 <PlayCircle className="mb-4 text-cyan-300" size={32} />
-                No video demo available for this project yet.
+                {copy.detail.noVideo}
               </div>
             )}
           </div>

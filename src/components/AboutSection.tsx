@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useInView } from 'motion/react'
 import { GlitchText } from '@/components/GlitchText'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 const IDENTITY_BLOCKS = [
   {
@@ -75,6 +76,7 @@ function IdentityBlock({
 }
 
 export function AboutSection() {
+  const { language, copy } = useLanguage()
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -105,9 +107,9 @@ export function AboutSection() {
           transition={{ duration: 0.7 }}
           className="mb-16 md:mb-24"
         >
-          <div className="hud-label mb-3">SECTION_02 / IDENTITY</div>
+          <div className="hud-label mb-3">{copy.about.section}</div>
           <GlitchText
-            text="WHO I AM"
+            text={copy.about.title}
             as="h2"
             scramble={false}
             className="text-3xl md:text-5xl font-black tracking-[0.1em] text-foreground"
@@ -126,13 +128,13 @@ export function AboutSection() {
                 className="text-2xl md:text-3xl font-orbitron font-bold leading-tight mb-6"
                 style={{ color: '#00E5FF' }}
               >
-                "I BUILD MACHINES THAT SEE, THINK, AND ACT."
+                {copy.about.quote}
               </p>
               <p className="text-base leading-relaxed mb-4" style={{ color: 'rgba(232,244,253,0.7)' }}>
-                I'm an AI Engineer at the intersection of perception, intelligence, and hardware. My work doesn't live in one domain — it spans the entire stack: from raw sensor data to deployed autonomous systems.
+                {copy.about.bio}
               </p>
               <p className="text-base leading-relaxed" style={{ color: 'rgba(232,244,253,0.55)' }}>
-                I believe the most interesting problems exist at the boundaries: where computer vision meets robotics, where ML research becomes embedded firmware, where software intelligence drives physical action in the real world.
+                {copy.about.philosophy}
               </p>
             </motion.div>
 
@@ -143,11 +145,11 @@ export function AboutSection() {
               transition={{ duration: 0.7, delay: 0.35 }}
               className="grid grid-cols-2 gap-4 mt-8"
             >
-              {[
-                { label: 'DOMAINS', value: '5+' },
-                { label: 'STACK DEPTH', value: 'FULL' },
-                { label: 'APPROACH', value: 'END-TO-END' },
-                { label: 'MODE', value: 'BUILDER' },
+                {[
+                { label: copy.about.domains, value: '5+' },
+                { label: copy.about.coverage, value: 'FULL' },
+                { label: copy.about.approach, value: language === 'fr' ? 'DE BOUT EN BOUT' : 'END-TO-END' },
+                { label: copy.about.mindset, value: language === 'fr' ? 'CONSTRUCTEUR' : 'BUILDER' },
               ].map(stat => (
                 <div
                   key={stat.label}

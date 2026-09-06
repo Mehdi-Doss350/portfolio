@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { motion, useInView, useScroll, useTransform } from 'motion/react'
 import { Github, Linkedin, Mail, FileText, MapPin, Phone } from 'lucide-react'
 import { SiKaggle } from 'react-icons/si'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 const PHOTO_URL = '/mehdi.png'
 
@@ -188,6 +189,7 @@ function TimelineContent({
 }
 
 export function WhoAmISection() {
+  const { language, copy } = useLanguage()
   const containerRef = useRef<HTMLDivElement>(null)
   const timelineRef = useRef<HTMLDivElement>(null)
   const inView = useInView(containerRef, { once: true, margin: '-80px' })
@@ -200,6 +202,15 @@ export function WhoAmISection() {
   const lineScaleY = useTransform(scrollYProgress, [0.1, 0.85], [0, 1])
 
   const [imgError, setImgError] = useState(false)
+  const timeline = language === 'fr'
+    ? TIMELINE.map(item => ({
+        ...item,
+        title: item.id === 'bac' ? 'Baccalauréat' : item.id === 'fsm' ? 'Faculté des sciences de Monastir' : item.title,
+        org: item.id === 'fsm' ? 'Cycle préparatoire aux études d’ingénieur' : item.id === 'ensi' ? 'Cycle ingénieur en informatique' : item.id === 'SWconsulting' || item.id === 'Hutchinson' ? 'Stage d’été' : item.org,
+        detail: item.id === 'bac' ? 'Spécialité mathématiques' : item.id === 'SWconsulting' ? 'Intelligence artificielle' : item.id === 'Hutchinson' ? 'Ingénierie logicielle' : item.detail,
+        year: item.id === 'ensi' ? '2024 – Aujourd’hui' : item.year,
+      }))
+    : TIMELINE
 
   return (
     <section
@@ -291,7 +302,7 @@ export function WhoAmISection() {
                   className="font-orbitron text-xs tracking-[0.2em]"
                   style={{ color: '#00E5FF' }}
                 >
-                  AI ENGINEER
+                  {copy.about.engineer}
                 </div>
                 <div className="flex items-center justify-center gap-1.5 mt-2">
                   <MapPin size={10} style={{ color: 'rgba(0,229,255,0.5)' }} />
@@ -299,7 +310,7 @@ export function WhoAmISection() {
                     className="font-inter text-xs"
                     style={{ color: 'rgba(232,244,253,0.4)' }}
                   >
-                    Tunisia
+                    {copy.about.location}
                   </span>
                 </div>
               </div>
@@ -309,7 +320,7 @@ export function WhoAmISection() {
                 className="font-inter text-sm leading-relaxed text-center"
                 style={{ color: 'rgba(232,244,253,0.65)' }}
               >
-                Hi, I'm a final-year Computer Science Engineering student at ENSI, passionate about AI, Machine Learning, Computer Vision, Robotics, and Software Engineering. I enjoy building AI-powered applications, autonomous systems, and full-stack solutions to solve real problems.
+                {copy.about.bio}
               </p>
 
               {/* CV button */}
@@ -322,7 +333,7 @@ export function WhoAmISection() {
                 data-cursor="hover"
               >
                 <FileText size={13} />
-                CLICK TO VIEW MY CV
+                {copy.about.cv}
               </a>
 
               {/* Social links */}
@@ -370,7 +381,7 @@ export function WhoAmISection() {
             transition={{ duration: 0.7, delay: 0.25, ease: 'easeOut' }}
             className="relative h-full flex flex-col"
           >
-            <div className="hud-label mb-8">EDUCATION & EXPERIENCE</div>
+            <div className="hud-label mb-8">{copy.about.timeline}</div>
 
             {/* Timeline track + animated fill — flex-1 so it consumes all remaining height */}
             <div className="relative flex-1">
@@ -392,7 +403,7 @@ export function WhoAmISection() {
 
               {/* Nodes — justify-between spreads the 5 entries evenly across the full height */}
               <div className="relative h-full flex flex-col justify-between py-2">
-                {TIMELINE.map((item, i) => (
+                {timeline.map((item, i) => (
                   <TimelineNode
                     key={item.id}
                     item={item}

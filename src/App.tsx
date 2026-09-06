@@ -13,6 +13,7 @@ import { ContactSection } from '@/components/ContactSection';
 import ProjectDetailPage from '@/pages/ProjectDetailPage';
 import ExperienceDetailPage from './components/ExperinceDetails';
 import { ExperienceSection } from './components/ExperienceSection';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 
 const Portfolio: React.FC = () => (
   <div
@@ -54,16 +55,18 @@ const ScrollToTop: React.FC = () => {
 const App: React.FC = () => {
   return (
     <Router>
-      <ScrollToTop />
-      <CustomCursor />
-      <IntersectObserver />
-      <Routes>
-        <Route path="/" element={<Portfolio />} />
-        <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
-        <Route path="/experience/:experienceId" element={<ExperienceDetailPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-      <Toaster />
+      <LanguageProvider>
+        <ScrollToTop />
+        <CustomCursor />
+        <IntersectObserver />
+        <Routes>
+          <Route path="/" element={<Portfolio />} />
+          <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
+          <Route path="/experience/:experienceId" element={<ExperienceDetailPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+        <Toaster />
+      </LanguageProvider>
     </Router>
   );
 };

@@ -13,6 +13,7 @@ import {
   SiMongodb,
 } from 'react-icons/si'
 import { GlitchText } from '@/components/GlitchText'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 type Skill = {
   name: string
@@ -159,6 +160,7 @@ function CategoryCard({ category, index, inView, align }: {
 }
 
 export function SkillsSection() {
+  const { copy } = useLanguage()
   const containerRef = useRef<HTMLDivElement>(null)
   const inView = useInView(containerRef, { once: true, margin: '-100px' })
 
@@ -184,9 +186,9 @@ export function SkillsSection() {
           transition={{ duration: 0.7 }}
           className="mb-8 md:mb-10"
         >
-          <div className="hud-label mb-3">SECTION_03 / SYSTEMS</div>
+          <div className="hud-label mb-3">{copy.skills.section}</div>
           <GlitchText
-            text="TECH STACK"
+            text={copy.skills.title}
             as="h2"
             scramble={false}
             className="text-3xl md:text-5xl font-black tracking-[0.1em] text-foreground"
@@ -198,7 +200,7 @@ export function SkillsSection() {
             className="mt-6 text-sm md:text-base font-inter"
             style={{ color: 'rgba(232,244,253,0.55)' }}
           >
-            Tools and libraries I build with, grouped by where they sit in the stack.
+            {copy.skills.intro}
           </motion.p>
         </motion.div>
 
